@@ -6,6 +6,6 @@ public class OptionSCommand implements Command {
 
     @Override
     public void execute(CommandOptions commandOptions) {
-        commandOptions.setOptionA(true);
+        commandOptions.setOptionS(true);
     }
 }
