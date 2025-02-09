@@ -1,5 +1,7 @@
 package com.dimas.processing;
 
 public interface DataProcessor<T> {
-    void process(Statistics<T> statistics, String input);
+    void process(String input);
+
+    Statistics<T> statistics();
 }

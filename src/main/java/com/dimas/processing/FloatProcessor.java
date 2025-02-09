@@ -1,33 +1,39 @@
 package com.dimas.processing;
 
 import com.dimas.cli.CommandOptions;
+import com.dimas.utils.DataConverter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class FloatProcessor implements DataProcessor<Double> {
     private final CommandOptions commandOptions;
+    private final Statistics<Double> statistics;
+    private final DataConverter dataConverter;
 
     @Override
-    public void process(Statistics<Double> statistics, String input) {
-        try {
-            var value = Double.parseDouble(input);
-            statistics.getValues().add(value);
+    public void process(String input) {
+        double value = (double) dataConverter.convertToType(Double.class, input);
 
-            if (this.commandOptions.isOptionF()) {
-                if (statistics.getMax() == null)
-                    statistics.setMax(value);
+        this.statistics.getValues().add(input);
 
-                statistics.setMax(Math.max(statistics.getMax(), value));
+        if (this.commandOptions.isOptionF()) {
+            if (this.statistics.getMax() == null)
+                this.statistics.setMax(value);
 
-                if (statistics.getMin() == null)
-                    statistics.setMin(value);
+            this.statistics.setMax(Math.max(statistics.getMax(), value));
 
-                statistics.setMin(Math.min(statistics.getMin(), value));
+            if (this.statistics.getMin() == null)
+                this.statistics.setMin(value);
 
-                statistics.setSum(statistics.getSum() + value);
-                statistics.setAvg(statistics.getSum() / statistics.getValues().size());
-            }
-        } catch (NumberFormatException ignored) {
+            this.statistics.setMin(Math.min(this.statistics.getMin(), value));
+
+            this.statistics.setSum(this.statistics.getSum() + value);
+            this.statistics.setAvg(this.statistics.getSum() / this.statistics.getValues().size());
         }
+    }
+
+    @Override
+    public Statistics<Double> statistics() {
+        return this.statistics;
     }
 }

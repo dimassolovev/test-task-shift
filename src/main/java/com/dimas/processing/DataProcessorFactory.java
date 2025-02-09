@@ -1,17 +1,22 @@
 package com.dimas.processing;
 
 import com.dimas.cli.CommandOptions;
+import com.dimas.utils.DataConverter;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class DataProcessorFactory {
     private final Map<Class<?>, DataProcessor<?>> processors = new HashMap<>();
 
     public DataProcessorFactory(CommandOptions commandOptions) {
-        this.processors.put(Long.class, new IntegerProcessor(commandOptions));
-        this.processors.put(Double.class, new FloatProcessor(commandOptions));
-        this.processors.put(String.class, new StringProcessor(commandOptions));
+        var dataConverter = new DataConverter();
+
+        this.processors.put(Long.class, new IntegerProcessor(commandOptions, new Statistics<>("integers.txt"), dataConverter));
+        this.processors.put(Double.class, new FloatProcessor(commandOptions, new Statistics<>("floats.txt"), dataConverter));
+        this.processors.put(String.class, new StringProcessor(commandOptions, new Statistics<>("strings.txt")));
     }
 
     public DataProcessor<?> getProcessor(Class<?> clazz) {

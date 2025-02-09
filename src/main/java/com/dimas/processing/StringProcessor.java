@@ -6,14 +6,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringProcessor implements DataProcessor<String> {
     private final CommandOptions commandOptions;
+    private final Statistics<String> statistics;
 
     @Override
-    public void process(Statistics<String> statistics, String input) {
-        statistics.getValues().add(input);
+    public void process(String value) {
+        this.statistics.getValues().add(value);
 
         if (this.commandOptions.isOptionF()) {
-            statistics.setMaxLength(Math.max(input.length(), statistics.getMaxLength()));
-            statistics.setMinLength(Math.min(input.length(), statistics.getMinLength()));
+            this.statistics.setMaxLength(Math.max(value.length(), this.statistics.getMaxLength()));
+            this.statistics.setMinLength(Math.min(value.length(), this.statistics.getMinLength()));
         }
+    }
+
+    @Override
+    public Statistics<String> statistics() {
+        return this.statistics;
     }
 }

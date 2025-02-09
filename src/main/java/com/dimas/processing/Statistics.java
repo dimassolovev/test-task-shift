@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Statistics<T> {
-    private List<T> values = new ArrayList<>();
+    private String fileName;
+    private List<String> values = new ArrayList<>();
     private T max;
     private T min;
     private double sum = 0.0;
@@ -19,4 +19,7 @@ public class Statistics<T> {
     private int minLength = Integer.MAX_VALUE;
     private int maxLength = Integer.MIN_VALUE;
 
+    public Statistics(String fileName) {
+        this.fileName = fileName;
+    }
 }

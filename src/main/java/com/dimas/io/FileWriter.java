@@ -11,11 +11,14 @@ public class FileWriter {
         try (
                 BufferedWriter bufferedWriter = new BufferedWriter(new java.io.FileWriter(filePath, commandOptions.isOptionA()))
         ) {
+
             for (String line : data) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
-        } catch (IOException e) {
+        }
+
+        catch (IOException e) {
             System.out.println("Error writing to file: " + filePath);
         }
     }

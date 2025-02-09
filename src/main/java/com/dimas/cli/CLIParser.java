@@ -22,7 +22,7 @@ public class CLIParser implements CommandLineParser {
     }
 
     @Override
-    public CommandOptions parse(String[] args) {
+    public CommandOptions parse() {
         var commandOptions = new CommandOptions();
 
         while (this.argsIterator.hasNext()) {
